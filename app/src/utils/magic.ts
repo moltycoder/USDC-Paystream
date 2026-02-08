@@ -4,7 +4,7 @@ import {
 } from "@magicblock-labs/ephemeral-rollups-sdk";
 import { AnchorProvider, Program, Wallet } from "@coral-xyz/anchor";
 import { WalletContextState } from "@solana/wallet-adapter-react";
-import { IDL } from "../types/paystream";
+import idl from "../types/paystream_idl.json";
 
 export const PAYSTREAM_PROGRAM_ID = new PublicKey(process.env.NEXT_PUBLIC_PAYSTREAM_PROGRAM_ID || "933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp");
 
@@ -20,7 +20,7 @@ export class PayStreamClient {
     // Cast wallet to Anchor Wallet type (compatible enough)
     this.provider = new AnchorProvider(connection, wallet as unknown as Wallet, {});
     // @ts-expect-error Program constructor signature mismatch
-    this.program = new Program(IDL, PAYSTREAM_PROGRAM_ID, this.provider);
+    this.program = new Program(idl as any, PAYSTREAM_PROGRAM_ID, this.provider);
   }
 
   async createSession() {
