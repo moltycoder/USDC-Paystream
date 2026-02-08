@@ -255,19 +255,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center text-xs text-gray-600 font-mono">
-        <a
-          className="hover:text-white transition-colors"
-          href="https://github.com/moltycoder/USDC-Paystream"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Source (GitHub)
-        </a>
-        <span>•</span>
-        <span>Built for #USDCHackathon</span>
-      </footer>
     </div>
   );
 }
