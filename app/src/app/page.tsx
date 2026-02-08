@@ -47,6 +47,9 @@ export default function Home() {
     }
     return Keypair.generate();
   });
+  
+  // Demo Host Identity (for Theatre Mode)
+  const [demoHostWallet] = useState(Keypair.generate());
 
   const addLog = (msg: string) => setLogs((prev) => [msg, ...prev].slice(0, 15));
 
@@ -66,8 +69,8 @@ export default function Home() {
       const agUsdcVal = agTokens.value[0]?.account.data.parsed.info.tokenAmount.uiAmount || 0;
       setAgentUsdc(agUsdcVal);
 
-      // 2. Host Balances (if connected)
-      if (wallet.publicKey) {
+      // 2. Host Balances (Real or Demo)
+      if (wallet.connected && wallet.publicKey) {
         const hSol = await conn.getBalance(wallet.publicKey);
         setHostSol(hSol / LAMPORTS_PER_SOL);
 
@@ -75,8 +78,19 @@ export default function Home() {
         const hUsdcVal = hTokens.value[0]?.account.data.parsed.info.tokenAmount.uiAmount || 0;
         setHostUsdc(hUsdcVal);
       } else {
-        setHostSol(0);
-        setHostUsdc(0);
+        // Theatre Mode: Use Demo Host (Mock or Real if we funded it, likely Mock for now)
+        // For visual consistency, let's start it with 0 or a fixed amount in Sim mode
+        // In "Real Mode" without wallet, we can't really check balance of a random keypair unless funded.
+        // We'll simulate a starting balance for the "Demo Host" in Sim mode
+        if (!isRealMode) {
+           if (hostUsdc === 0) setHostUsdc(500.00); // Mock starting balance for demo
+           // SOL stays 0 for random keypair
+        } else {
+           // Real mode but unconnected -> check random keypair (will be 0)
+           const dhSol = await conn.getBalance(demoHostWallet.publicKey);
+           setHostSol(dhSol / LAMPORTS_PER_SOL);
+           setHostUsdc(0); 
+        }
       }
     } catch (e) {
       console.error("Balance fetch error:", e);
@@ -191,16 +205,15 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           {/* Host Wallet */}
           <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex justify-between items-center">
-            <span className="text-sm text-gray-400">🏢 Project Wallet (Host)</span>
+            <span className="text-sm text-gray-400">
+              {wallet.connected ? "🏢 Project Wallet (Host)" : "🎭 Demo Host (Simulated)"}
+            </span>
             <div className="text-right">
-                {wallet.connected ? (
-                   <>
-                     <div className="font-mono text-green-400">{hostUsdc.toFixed(2)} USDC</div>
-                     <div className="text-[10px] text-gray-500">{hostSol.toFixed(4)} SOL</div>
-                   </>
-                ) : (
-                   <span className="text-xs text-yellow-500">Not Connected</span>
-                )}
+               {/* Always show balance now (Real or Simulated) */}
+               <>
+                 <div className="font-mono text-green-400">{hostUsdc.toFixed(2)} USDC</div>
+                 <div className="text-[10px] text-gray-500">{hostSol.toFixed(4)} SOL</div>
+               </>
             </div>
           </div>
           {/* Agent Wallet */}
