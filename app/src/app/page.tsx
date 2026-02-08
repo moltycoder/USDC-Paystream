@@ -125,60 +125,79 @@ export default function Home() {
       </header>
 
       <main className="flex flex-col gap-8 row-start-2 items-center w-full max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
-          {/* Main Video Area */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            <div className="relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-800 shadow-2xl group">
-              <video
-                ref={videoRef}
-                src="/assets/demo-feed.mp4"
-                className={`w-full h-full object-cover transition-all duration-700 ${isStreaming ? "grayscale-0 blur-0" : "grayscale blur-sm opacity-50"}`}
-                loop
-                muted
-                playsInline
-              />
-              
-              {/* Overlay UI */}
-              <div className="absolute top-4 left-4 flex gap-2">
-                <div className={`px-2 py-1 rounded text-xs font-bold ${isStreaming ? "bg-red-600 text-white animate-pulse" : "bg-gray-700 text-gray-400"}`}>
-                  {isStreaming ? "● LIVE FEED" : "○ OFFLINE"}
-                </div>
-                {isStreaming && (
-                  <div className="px-2 py-1 rounded text-xs font-bold bg-blue-600/80 text-white backdrop-blur">
-                    ER SESSION: {erSessionId}
-                  </div>
-                )}
-              </div>
-
-              {!isStreaming && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center p-6 bg-black/80 backdrop-blur-md rounded-xl border border-gray-800">
-                    <p className="text-gray-400 mb-4 text-sm font-mono">PAYMENT STREAM REQUIRED</p>
-                    <button 
-                      onClick={toggleStream}
-                      className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-colors flex items-center gap-2 mx-auto"
-                    >
-                      <span>⚡</span> Start Stream (0.001 USDC/s)
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Agent Vision Overlay (Simulated) */}
-              {isStreaming && isAgentMode && (
-                <div className="absolute inset-0 pointer-events-none border-4 border-green-500/30">
-                  <div className="absolute bottom-4 right-4 text-green-400 font-mono text-xs bg-black/70 p-2 rounded">
-                    <div>AI VISION: ACTIVE</div>
-                    <div>CONFIDENCE: 98.4%</div>
-                    <div>OBJECTS: 3</div>
-                  </div>
-                </div>
-              )}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+          {/* Control Panel */}
+          <div className="flex flex-col gap-4 p-6 bg-gray-900 rounded-xl border border-gray-800 h-fit">
+            <h2 className="text-xl font-bold mb-4">Control Center</h2>
+            
+            <div className="flex justify-between items-center bg-black/50 p-4 rounded-lg">
+              <span className="text-gray-400">Status</span>
+              <span className={`font-mono font-bold ${isStreaming ? 'text-green-400 animate-pulse' : 'text-red-400'}`}>
+                {isStreaming ? "STREAMING" : "OFFLINE"}
+              </span>
             </div>
+
+            <div className="flex justify-between items-center bg-black/50 p-4 rounded-lg">
+              <span className="text-gray-400">Session Cost</span>
+              <span className="font-mono text-xl text-yellow-400">
+                ${cost.toFixed(4)}
+              </span>
+            </div>
+
+            {erSessionId && (
+              <div className="bg-blue-900/20 border border-blue-800 p-3 rounded text-xs font-mono text-blue-300 break-all">
+                ER Session: {erSessionId}
+              </div>
+            )}
+
+            <button
+              onClick={toggleStream}
+              className={`mt-4 py-4 rounded-lg font-bold text-lg transition-all ${
+                isStreaming
+                  ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_20px_rgba(220,38,38,0.5)]'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white shadow-[0_0_20px_rgba(37,99,235,0.5)]'
+              }`}
+            >
+              {isStreaming ? "STOP AGENT" : "DEPLOY AGENT TESTER"}
+            </button>
+            
+            <p className="text-xs text-gray-500 text-center mt-2">
+              Simulates high-frequency micro-payments via MagicBlock Ephemeral Rollups
+            </p>
           </div>
 
-          {/* Terminal / Logs */}
-          <div className="bg-black rounded-xl border border-gray-800 p-4 font-mono text-xs flex flex-col h-[400px] lg:h-auto">
+          {/* Video Feed */}
+          <div className="md:col-span-2 relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-800 group shadow-2xl">
+            <video
+              ref={videoRef}
+              src="/assets/demo-feed.mp4"
+              loop
+              muted
+              playsInline
+              className={`w-full h-full object-cover transition-all duration-700 ${isStreaming ? 'filter-none' : 'blur-xl grayscale opacity-50'}`}
+            />
+            
+            {!isStreaming && (
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="bg-black/80 px-6 py-3 rounded-full border border-gray-700 backdrop-blur-md">
+                  <span className="text-gray-300 font-mono">🔒 Payment Required (402)</span>
+                </div>
+              </div>
+            )}
+
+            {isStreaming && isAgentMode && (
+              <div className="absolute top-4 left-4">
+                <div className="flex items-center gap-2 bg-green-900/80 text-green-400 px-3 py-1 rounded border border-green-500/50 text-xs font-mono animate-pulse">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  AI ANALYSIS ACTIVE
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Terminal / Logs (Moved below grid) */}
+        <div className="w-full bg-black rounded-xl border border-gray-800 p-4 font-mono text-xs flex flex-col h-[200px]">
             <div className="flex justify-between items-center mb-4 border-b border-gray-800 pb-2">
               <span className="text-gray-400">System Logs</span>
               <span className="text-green-500 animate-pulse">● Connected</span>
@@ -194,17 +213,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            {isStreaming && (
-               <div className="mt-4 pt-4 border-t border-gray-800">
-                 <button 
-                   onClick={toggleStream}
-                   className="w-full py-2 bg-red-900/30 text-red-400 border border-red-900 rounded hover:bg-red-900/50 transition-colors"
-                 >
-                   Stop Stream & Settle
-                 </button>
-               </div>
-            )}
-          </div>
         </div>
       </main>
 
