@@ -1,6 +1,6 @@
 import { Program } from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
-import { Paystream } from "../../../target/types/paystream";
+import { Paystream } from "../types/paystream";
 
 export const executeTick = async (program: Program<Paystream>, sessionPda: PublicKey) => {
   console.log("Executing tick for session:", sessionPda.toBase58());

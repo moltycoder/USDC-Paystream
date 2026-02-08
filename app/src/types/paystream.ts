@@ -1,0 +1,211 @@
+export type Paystream = {
+  "version": "0.1.0",
+  "name": "paystream",
+  "instructions": [
+    {
+      "name": "initializeStream",
+      "accounts": [
+        { "name": "session", "isMut": true, "isSigner": true },
+        { "name": "vault", "isMut": true, "isSigner": true },
+        { "name": "payer", "isMut": true, "isSigner": true },
+        { "name": "host", "isMut": false, "isSigner": false },
+        { "name": "mint", "isMut": false, "isSigner": false },
+        { "name": "payerToken", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "rate", "type": "u64" },
+        { "name": "amount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "tick",
+      "accounts": [
+        { "name": "session", "isMut": true, "isSigner": false },
+        { "name": "vault", "isMut": true, "isSigner": false },
+        { "name": "hostToken", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeStream",
+      "accounts": [
+        { "name": "session", "isMut": true, "isSigner": false },
+        { "name": "vault", "isMut": true, "isSigner": false },
+        { "name": "payer", "isMut": true, "isSigner": true },
+        { "name": "payerToken", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeBounty",
+      "accounts": [
+        { "name": "bounty", "isMut": true, "isSigner": true },
+        { "name": "bountyVault", "isMut": true, "isSigner": true },
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "mint", "isMut": false, "isSigner": false },
+        { "name": "authorityToken", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "targetHash", "type": { "array": ["u8", 32] } },
+        { "name": "amount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "claimBounty",
+      "accounts": [
+        { "name": "bounty", "isMut": true, "isSigner": false },
+        { "name": "bountyVault", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": true, "isSigner": false },
+        { "name": "claimerToken", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "secret", "type": "bytes" }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "streamSession",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "payer", "type": "publicKey" },
+          { "name": "host", "type": "publicKey" },
+          { "name": "rate", "type": "u64" },
+          { "name": "isActive", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "bountyPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "publicKey" },
+          { "name": "targetHash", "type": { "array": ["u8", 32] } },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "StreamInactive", "msg": "Stream is inactive" },
+    { "code": 6001, "name": "InvalidSecret", "msg": "Invalid secret provided" }
+  ]
+};
+
+export const IDL: Paystream = {
+  "version": "0.1.0",
+  "name": "paystream",
+  "instructions": [
+    {
+      "name": "initializeStream",
+      "accounts": [
+        { "name": "session", "isMut": true, "isSigner": true },
+        { "name": "vault", "isMut": true, "isSigner": true },
+        { "name": "payer", "isMut": true, "isSigner": true },
+        { "name": "host", "isMut": false, "isSigner": false },
+        { "name": "mint", "isMut": false, "isSigner": false },
+        { "name": "payerToken", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "rate", "type": "u64" },
+        { "name": "amount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "tick",
+      "accounts": [
+        { "name": "session", "isMut": true, "isSigner": false },
+        { "name": "vault", "isMut": true, "isSigner": false },
+        { "name": "hostToken", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeStream",
+      "accounts": [
+        { "name": "session", "isMut": true, "isSigner": false },
+        { "name": "vault", "isMut": true, "isSigner": false },
+        { "name": "payer", "isMut": true, "isSigner": true },
+        { "name": "payerToken", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeBounty",
+      "accounts": [
+        { "name": "bounty", "isMut": true, "isSigner": true },
+        { "name": "bountyVault", "isMut": true, "isSigner": true },
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "mint", "isMut": false, "isSigner": false },
+        { "name": "authorityToken", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "rent", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "targetHash", "type": { "array": ["u8", 32] } },
+        { "name": "amount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "claimBounty",
+      "accounts": [
+        { "name": "bounty", "isMut": true, "isSigner": false },
+        { "name": "bountyVault", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": true, "isSigner": false },
+        { "name": "claimerToken", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "secret", "type": "bytes" }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "streamSession",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "payer", "type": "publicKey" },
+          { "name": "host", "type": "publicKey" },
+          { "name": "rate", "type": "u64" },
+          { "name": "isActive", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "bountyPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "publicKey" },
+          { "name": "targetHash", "type": { "array": ["u8", 32] } },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "StreamInactive", "msg": "Stream is inactive" },
+    { "code": 6001, "name": "InvalidSecret", "msg": "Invalid secret provided" }
+  ]
+};
