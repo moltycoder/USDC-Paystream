@@ -1,4 +1,5 @@
-import { Program, PublicKey } from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { PublicKey } from "@solana/web3.js";
 import { Paystream } from "../../../target/types/paystream";
 
 export const executeTick = async (program: Program<Paystream>, sessionPda: PublicKey) => {
