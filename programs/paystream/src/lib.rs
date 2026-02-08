@@ -47,10 +47,12 @@ pub mod paystream {
             Transfer {
                 from: ctx.accounts.vault.to_account_info(),
                 to: ctx.accounts.host_token.to_account_info(),
-                authority: session.to_account_info(),
+                authority: session.to_account_info(), // Session PDA owns the vault
             },
             signer,
         );
+        
+        // This fails if insufficient funds, which is what we want
         token::transfer(transfer_ctx, session.rate)?;
 
         Ok(())
@@ -58,6 +60,8 @@ pub mod paystream {
 
     pub fn close_stream(ctx: Context<CloseStream>) -> Result<()> {
         let session = &ctx.accounts.session;
+        
+        // Return remaining funds to payer
         let amount = ctx.accounts.vault.amount;
 
         if amount > 0 {
@@ -90,6 +94,7 @@ pub mod paystream {
         bounty.target_hash = target_hash;
         bounty.bump = ctx.bumps.bounty;
 
+        // Deposit bounty
         let transfer_ctx = CpiContext::new(
             ctx.accounts.token_program.to_account_info(),
             Transfer {
@@ -110,6 +115,7 @@ pub mod paystream {
         let hash = anchor_lang::solana_program::hash::hash(&secret).to_bytes();
         require!(hash == bounty.target_hash, PayStreamError::InvalidSecret);
 
+        // Payout
         let amount = ctx.accounts.bounty_vault.amount;
 
         let seeds = &[
@@ -189,7 +195,7 @@ pub struct Tick<'info> {
 pub struct CloseStream<'info> {
     #[account(
         mut,
-        close = payer,
+        close = payer, // Close rent back to payer
         seeds = [b"session", session.payer.as_ref(), session.host.as_ref()],
         bump = session.bump,
         has_one = payer
@@ -242,7 +248,7 @@ pub struct InitializeBounty<'info> {
 pub struct ClaimBounty<'info> {
     #[account(
         mut,
-        close = authority,
+        close = authority, // Return rent to authority
         seeds = [b"bounty", bounty.authority.as_ref()],
         bump = bounty.bump
     )]
