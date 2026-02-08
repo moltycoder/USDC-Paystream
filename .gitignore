@@ -7,3 +7,10 @@ wallet.json
 id.json
 .anchor/
 .gitpad_password
+.anchor
+.DS_Store
+target
+**/*.rs.bk
+node_modules
+test-ledger
+.yarn
