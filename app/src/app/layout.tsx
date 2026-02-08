@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { WalletContextProvider } from "@/components/WalletContextProvider";
+import { WalletContextProvider } from "../components/WalletContextProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BountyVision | USDC PayStream",
-  description: "Agentic Commerce Demo",
+  title: "Project BountyVision",
+  description: "Watch-to-Earn for AI - Powered by USDC PayStream",
 };
 
 export default function RootLayout({
