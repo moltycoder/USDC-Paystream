@@ -16,7 +16,8 @@ export default function Home() {
   
   // UI State
   const [isStreaming, setIsStreaming] = useState(false);
-  const [isAgentMode, setIsAgentMode] = useState(false);
+  // Default to Agent Mode (Theatre)
+  const [isAgentMode, setIsAgentMode] = useState(true);
   const [isRealMode, setIsRealMode] = useState(false);
   const [network, setNetwork] = useState<"devnet" | "testnet">("devnet");
   const [isLoading, setIsLoading] = useState(false);
@@ -195,9 +196,11 @@ export default function Home() {
                 <button onClick={() => setNetwork('devnet')} className={`px-3 py-1 rounded text-xs ${network === 'devnet' ? 'bg-green-900 text-green-100' : 'text-gray-400'}`}>Devnet</button>
                 <button onClick={() => setNetwork('testnet')} className={`px-3 py-1 rounded text-xs ${network === 'testnet' ? 'bg-red-900 text-red-100' : 'text-gray-400'}`}>Testnet</button>
             </div>
-            <button onClick={toggleAgent} className={`px-4 py-2 rounded text-sm font-mono border ${isAgentMode ? 'bg-green-900 border-green-500 text-green-100' : 'border-gray-700 hover:bg-gray-800'}`}>
-              {isAgentMode ? "🤖 Agent Active" : "👤 Human Mode"}
-            </button>
+            {wallet.connected && (
+              <button onClick={toggleAgent} className={`px-4 py-2 rounded text-sm font-mono border ${isAgentMode ? 'bg-green-900 border-green-500 text-green-100' : 'border-gray-700 hover:bg-gray-800'}`}>
+                {isAgentMode ? "🤖 Agent Mode" : "👤 Manual Mode"}
+              </button>
+            )}
             <WalletMultiButton />
           </div>
         </div>
