@@ -173,48 +173,47 @@ export default function Home() {
   };
 
   return (
-    <div className="grid grid-rows-[auto_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-8 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-gray-950 text-white relative">
-      <div className={`absolute top-0 left-0 w-full text-xs font-mono font-bold text-center py-2 border-b z-50 ${network === 'devnet' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>
+    <div className="min-h-screen p-4 sm:p-8 font-[family-name:var(--font-geist-sans)] bg-gray-950 text-white relative">
+      <div className={`fixed top-0 left-0 w-full text-[10px] sm:text-xs font-mono font-bold text-center py-2 border-b z-50 ${network === 'devnet' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>
         ⚠️ ENVIRONMENT: {network.toUpperCase()} - {isLoading ? "REFRESHING..." : "LIVE DATA"}
       </div>
 
-      <header className="row-start-1 flex flex-col gap-4 w-full max-w-6xl mt-8">
-        <div className="flex flex-wrap items-center justify-between w-full">
+      <header className="flex flex-col gap-6 w-full max-w-6xl mx-auto mt-12 mb-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full text-center md:text-left">
           <div>
-            <h1 className="text-3xl font-bold tracking-tighter text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
               Project <span className="text-green-400">BountyVision</span>
             </h1>
-            <h2 className="text-lg font-medium text-white/90 mt-1">Powered by USDC PayStream</h2>
+            <h2 className="text-sm sm:text-lg font-medium text-white/90 mt-1">Powered by USDC PayStream</h2>
           </div>
-          <div className="flex gap-4 items-center">
-            <div className="flex bg-gray-800 rounded p-1 border border-gray-700">
-                <button onClick={() => setNetwork('devnet')} className={`px-3 py-1 rounded text-xs ${network === 'devnet' ? 'bg-green-900 text-green-100' : 'text-gray-400'}`}>Devnet</button>
-                <button onClick={() => setNetwork('testnet')} className={`px-3 py-1 rounded text-xs ${network === 'testnet' ? 'bg-red-900 text-red-100' : 'text-gray-400'}`}>Testnet</button>
+          <div className="flex flex-col sm:flex-row gap-3 items-center w-full md:w-auto">
+            <div className="flex bg-gray-800 rounded p-1 border border-gray-700 w-full sm:w-auto justify-center">
+                <button onClick={() => setNetwork('devnet')} className={`flex-1 sm:flex-none px-3 py-1 rounded text-xs ${network === 'devnet' ? 'bg-green-900 text-green-100' : 'text-gray-400'}`}>Devnet</button>
+                <button onClick={() => setNetwork('testnet')} className={`flex-1 sm:flex-none px-3 py-1 rounded text-xs ${network === 'testnet' ? 'bg-red-900 text-red-100' : 'text-gray-400'}`}>Testnet</button>
             </div>
             {wallet.connected && (
-              <button onClick={toggleAgent} className={`px-4 py-2 rounded text-sm font-mono border ${isAgentMode ? 'bg-green-900 border-green-500 text-green-100' : 'border-gray-700 hover:bg-gray-800'}`}>
+              <button onClick={toggleAgent} className={`w-full sm:w-auto px-4 py-2 rounded text-sm font-mono border ${isAgentMode ? 'bg-green-900 border-green-500 text-green-100' : 'border-gray-700 hover:bg-gray-800'}`}>
                 {isAgentMode ? "🤖 Agent Mode" : "👤 Manual Mode"}
               </button>
             )}
-            <WalletMultiButton />
+            <div className="w-full sm:w-auto flex justify-center"><WalletMultiButton /></div>
           </div>
         </div>
 
-        {/* Wallets Display */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
           {/* Host Wallet */}
           <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex justify-between items-center cursor-pointer hover:border-green-500/50 transition-colors"
                onClick={() => copyToClipboard(wallet.connected && wallet.publicKey ? wallet.publicKey.toString() : demoHostWallet.publicKey.toString(), "Host Address")}>
             <div className="flex flex-col">
-                 <span className="text-sm text-gray-400">
+                 <span className="text-xs sm:text-sm text-gray-400">
                   {wallet.connected ? "🏢 Project Wallet (Host)" : "🎭 Demo Host (Simulated)"}
                 </span>
-                <span className="text-[10px] text-gray-600">
+                <span className="text-[10px] text-gray-600 truncate max-w-[120px] sm:max-w-none">
                     {(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(0, 6)}...{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(-4)}
                 </span>
             </div>
             <div className="text-right">
-                 <div className="font-mono text-green-400">{hostUsdc.toFixed(2)} USDC</div>
+                 <div className="font-mono text-green-400 text-sm sm:text-base">{hostUsdc.toFixed(2)} USDC</div>
                  <div className="text-[10px] text-gray-500">{hostSol.toFixed(4)} SOL</div>
             </div>
           </div>
@@ -223,8 +222,8 @@ export default function Home() {
           <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-colors"
                onClick={() => copyToClipboard(agentWallet.publicKey.toString(), "Agent Address")}>
             <div className="flex flex-col">
-                <span className="text-sm text-gray-400">🤖 Agent Tester Wallet</span>
-                <span className="text-[10px] text-gray-600">
+                <span className="text-xs sm:text-sm text-gray-400">🤖 Agent Tester Wallet</span>
+                <span className="text-[10px] text-gray-600 truncate max-w-[120px] sm:max-w-none">
                   {agentWallet.publicKey.toString().slice(0, 6)}...{agentWallet.publicKey.toString().slice(-4)}
                 </span>
             </div>
@@ -233,7 +232,7 @@ export default function Home() {
                   <span className="text-xs animate-pulse text-blue-400">Fetching...</span>
               ) : (
                   <>
-                    <div className="font-mono text-blue-400">{agentUsdc.toFixed(2)} USDC</div>
+                    <div className="font-mono text-blue-400 text-sm sm:text-base">{agentUsdc.toFixed(2)} USDC</div>
                     <div className="text-[10px] text-gray-500">{agentSol.toFixed(4)} SOL</div>
                   </>
               )}
@@ -242,28 +241,28 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex flex-col gap-8 row-start-2 items-center w-full max-w-6xl">
+      <main className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
         {/* Funding Instructions */}
-        <div className="w-full bg-blue-900/20 border border-blue-800/50 p-4 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-             <div className="flex items-center gap-2 text-blue-200">
+        <div className="w-full bg-blue-900/20 border border-blue-800/50 p-4 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-center md:text-left">
+             <div className="flex flex-col sm:flex-row items-center gap-2 text-blue-200">
                  <span className="text-xl">ℹ️</span>
                  <span>To run the demo, please fund these wallets on <strong>{network.toUpperCase()}</strong>:</span>
              </div>
-             <div className="flex gap-4 font-mono text-xs">
-                 <div className="bg-black/40 px-3 py-2 rounded flex flex-col">
+             <div className="flex flex-col sm:flex-row gap-4 font-mono text-xs w-full md:w-auto">
+                 <div className="bg-black/40 px-3 py-2 rounded flex flex-col w-full sm:w-auto">
                      <span className="text-gray-500 mb-1">HOST ADDRESS</span>
-                     <span className="text-white select-all">{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString()}</span>
+                     <span className="text-white select-all break-all sm:break-normal">{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString()}</span>
                  </div>
-                 <div className="bg-black/40 px-3 py-2 rounded flex flex-col">
+                 <div className="bg-black/40 px-3 py-2 rounded flex flex-col w-full sm:w-auto">
                      <span className="text-gray-500 mb-1">AGENT ADDRESS</span>
-                     <span className="text-white select-all">{agentWallet.publicKey.toString()}</span>
+                     <span className="text-white select-all break-all sm:break-normal">{agentWallet.publicKey.toString()}</span>
                  </div>
              </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
           {/* Control Panel */}
-          <div className="flex flex-col gap-4 p-6 bg-gray-900 rounded-xl border border-gray-800 h-fit">
+          <div className="flex flex-col gap-4 p-6 bg-gray-900 rounded-xl border border-gray-800 h-fit order-2 lg:order-1">
             <h2 className="text-xl font-bold mb-4">Control Center</h2>
             <div className="flex justify-between items-center bg-black/50 p-4 rounded-lg">
               <span className="text-gray-400">Status</span>
@@ -290,12 +289,12 @@ export default function Home() {
           </div>
 
           {/* Video Feed */}
-          <div className="md:col-span-2 relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-800 group shadow-2xl">
+          <div className="lg:col-span-2 relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-800 group shadow-2xl order-1 lg:order-2">
             <video ref={videoRef} src="/assets/demo-feed.mp4" loop muted playsInline className={`w-full h-full object-cover transition-all duration-700 ${isStreaming ? 'filter-none' : 'blur-xl grayscale opacity-50'}`} />
             {!isStreaming && (
               <div className="absolute inset-0 flex items-center justify-center z-10">
                 <div className="bg-black/80 px-6 py-3 rounded-full border border-gray-700 backdrop-blur-md">
-                  <span className="text-gray-300 font-mono">🔒 Payment Required (402)</span>
+                  <span className="text-gray-300 font-mono text-sm sm:text-base">🔒 Payment Required (402)</span>
                 </div>
               </div>
             )}
@@ -310,7 +309,7 @@ export default function Home() {
         </div>
         
         {/* Logs */}
-        <div className="w-full bg-black font-mono text-xs p-4 rounded-lg border border-gray-800 h-64 overflow-y-auto">
+        <div className="w-full bg-black font-mono text-xs p-4 rounded-lg border border-gray-800 h-64 overflow-y-auto order-3">
             <div className="text-gray-500 mb-2 border-b border-gray-800 pb-2 flex justify-between">
               <span>System Logs</span>
               <span className="text-green-500">● Live</span>
@@ -325,10 +324,10 @@ export default function Home() {
         </div>
         
          {/* About / Pitch Module */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 border-t border-gray-800 pt-8">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 border-t border-gray-800 pt-8 order-4">
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">Why USDC PayStream?</h3>
-            <p className="text-gray-400 leading-relaxed">
+            <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
               AI Agents are the new economic actors, but they face a critical barrier: <span className="text-white font-medium"> Friction</span>. Traditional payments (credit cards) and even standard crypto (gas fees, block times) are too slow and expensive for machine-to-machine commerce.
             </p>
             <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-800">
