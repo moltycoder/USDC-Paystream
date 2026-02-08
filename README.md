@@ -28,3 +28,13 @@ The system operates on a "Tick-Based" streaming model:
     -   `/programs/paystream`: Anchor Smart Contract (Rust)
     -   `/app`: Next.js Frontend with Wallet Adapter
     -   `/tests`: Integration tests for tick logic
+## Why It Matters
+This project solves the "Friction of Value" problem for AI Agents.
+1.  **Gas Barrier:** Agents shouldn't need to manage volatile gas tokens (SOL/ETH) just to spend stablecoins. PayStream allows them to operate purely in USDC.
+2.  **Subscription Trap:** Agents shouldn't pay monthly fees for APIs they use for seconds. PayStream enables "Pay-per-Inference" and "Pay-per-Second" granularity.
+3.  **High Velocity:** Traditional blockchains cannot handle the speed of agent decision-making (100ms loops). Our Ephemeral Rollup architecture supports the real-time nature of AI commerce.
+
+## Use Cases
+1.  **DePIN for Intelligence:** Agents pay CCTV owners for real-time access to security feeds only when an anomaly is detected.
+2.  **LLM Streaming:** Users pay for LLM inference token-by-token in real-time, stopping payment the millisecond the answer is satisfactory.
+3.  **Autonomous M2M Markets:** Drones paying charging stations by the watt-second without creating thousands of on-chain transactions.
