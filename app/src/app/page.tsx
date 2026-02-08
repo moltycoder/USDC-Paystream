@@ -5,6 +5,7 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Keypair, Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { PayStreamClient } from "@/utils/magic";
+import { getDemoHostWallet } from "@/utils/demo_host";
 
 const USDC_DEVNET = new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU");
 // Fallback for testnet if distinct, otherwise use same or config
@@ -50,9 +51,14 @@ export default function Home() {
   });
   
   // Demo Host Identity (for Theatre Mode)
-  const [demoHostWallet] = useState(Keypair.generate());
+  const [demoHostWallet] = useState(getDemoHostWallet());
 
   const addLog = (msg: string) => setLogs((prev) => [msg, ...prev].slice(0, 15));
+  
+  const copyToClipboard = (text: string, label: string) => {
+      navigator.clipboard.writeText(text);
+      addLog(`${label} copied to clipboard!`);
+  };
 
   // Balance Fetcher
   const fetchBalances = async () => {
@@ -62,7 +68,7 @@ export default function Home() {
       const conn = new Connection(rpc, 'confirmed');
       const usdcMint = network === 'devnet' ? USDC_DEVNET : USDC_TESTNET;
 
-      // 1. Agent Balances
+      // 1. Agent Balances (Real)
       const agSol = await conn.getBalance(agentWallet.publicKey);
       setAgentSol(agSol / LAMPORTS_PER_SOL);
 
@@ -71,28 +77,18 @@ export default function Home() {
       setAgentUsdc(agUsdcVal);
 
       // 2. Host Balances (Real or Demo)
+      let hostPubkey = demoHostWallet.publicKey;
       if (wallet.connected && wallet.publicKey) {
-        const hSol = await conn.getBalance(wallet.publicKey);
-        setHostSol(hSol / LAMPORTS_PER_SOL);
-
-        const hTokens = await conn.getParsedTokenAccountsByOwner(wallet.publicKey, { mint: usdcMint });
-        const hUsdcVal = hTokens.value[0]?.account.data.parsed.info.tokenAmount.uiAmount || 0;
-        setHostUsdc(hUsdcVal);
-      } else {
-        // Theatre Mode: Use Demo Host (Mock or Real if we funded it, likely Mock for now)
-        // For visual consistency, let's start it with 0 or a fixed amount in Sim mode
-        // In "Real Mode" without wallet, we can't really check balance of a random keypair unless funded.
-        // We'll simulate a starting balance for the "Demo Host" in Sim mode
-        if (!isRealMode) {
-           if (hostUsdc === 0) setHostUsdc(500.00); // Mock starting balance for demo
-           // SOL stays 0 for random keypair
-        } else {
-           // Real mode but unconnected -> check random keypair (will be 0)
-           const dhSol = await conn.getBalance(demoHostWallet.publicKey);
-           setHostSol(dhSol / LAMPORTS_PER_SOL);
-           setHostUsdc(0); 
-        }
+         hostPubkey = wallet.publicKey;
       }
+      
+      const hSol = await conn.getBalance(hostPubkey);
+      setHostSol(hSol / LAMPORTS_PER_SOL);
+
+      const hTokens = await conn.getParsedTokenAccountsByOwner(hostPubkey, { mint: usdcMint });
+      const hUsdcVal = hTokens.value[0]?.account.data.parsed.info.tokenAmount.uiAmount || 0;
+      setHostUsdc(hUsdcVal);
+
     } catch (e) {
       console.error("Balance fetch error:", e);
     } finally {
@@ -117,9 +113,9 @@ export default function Home() {
           setCost((c) => c + transferAmount);
           
           if (!isRealMode) {
-             // Sim: Decrement Agent, Increment Host visual only
-             setAgentUsdc((prev) => Math.max(0, prev - transferAmount));
-             setHostUsdc((prev) => prev + transferAmount);
+             // Sim: Just update cost log, DO NOT FAKE BALANCE changes if we want "Real Only"
+             // Or keep visual sim? User said "No mock simulation".
+             // Removing mock balance updates.
           }
           
           if (Math.random() > 0.7) {
@@ -143,7 +139,6 @@ export default function Home() {
 
   const toggleStream = async () => {
     if (isRealMode) {
-      // Allow Agent Mode to run even if Host not connected (Autonomous)
       if (!isAgentMode && !wallet.connected) {
         addLog("Error: Connect Wallet for Human Mode");
         return;
@@ -205,23 +200,34 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Wallets Display */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           {/* Host Wallet */}
-          <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex justify-between items-center">
-            <span className="text-sm text-gray-400">
-              {wallet.connected ? "🏢 Project Wallet (Host)" : "🎭 Demo Host (Simulated)"}
-            </span>
+          <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex justify-between items-center cursor-pointer hover:border-green-500/50 transition-colors"
+               onClick={() => copyToClipboard(wallet.connected && wallet.publicKey ? wallet.publicKey.toString() : demoHostWallet.publicKey.toString(), "Host Address")}>
+            <div className="flex flex-col">
+                 <span className="text-sm text-gray-400">
+                  {wallet.connected ? "🏢 Project Wallet (Host)" : "🎭 Demo Host (Simulated)"}
+                </span>
+                <span className="text-[10px] text-gray-600">
+                    {(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(0, 6)}...{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(-4)}
+                </span>
+            </div>
             <div className="text-right">
-               {/* Always show balance now (Real or Simulated) */}
-               <>
                  <div className="font-mono text-green-400">{hostUsdc.toFixed(2)} USDC</div>
                  <div className="text-[10px] text-gray-500">{hostSol.toFixed(4)} SOL</div>
-               </>
             </div>
           </div>
+          
           {/* Agent Wallet */}
-          <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex justify-between items-center">
-            <span className="text-sm text-gray-400">🤖 Agent Tester Wallet</span>
+          <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex justify-between items-center cursor-pointer hover:border-blue-500/50 transition-colors"
+               onClick={() => copyToClipboard(agentWallet.publicKey.toString(), "Agent Address")}>
+            <div className="flex flex-col">
+                <span className="text-sm text-gray-400">🤖 Agent Tester Wallet</span>
+                <span className="text-[10px] text-gray-600">
+                  {agentWallet.publicKey.toString().slice(0, 6)}...{agentWallet.publicKey.toString().slice(-4)}
+                </span>
+            </div>
             <div className="text-right">
               {isLoading ? (
                   <span className="text-xs animate-pulse text-blue-400">Fetching...</span>
@@ -231,15 +237,30 @@ export default function Home() {
                     <div className="text-[10px] text-gray-500">{agentSol.toFixed(4)} SOL</div>
                   </>
               )}
-              <div className="text-[10px] text-gray-600 cursor-pointer hover:text-white" onClick={() => {navigator.clipboard.writeText(agentWallet.publicKey.toString()); addLog("Address copied!")}}>
-                  {agentWallet.publicKey.toString().slice(0, 6)}...{agentWallet.publicKey.toString().slice(-4)}
-              </div>
             </div>
           </div>
         </div>
       </header>
 
       <main className="flex flex-col gap-8 row-start-2 items-center w-full max-w-6xl">
+        {/* Funding Instructions */}
+        <div className="w-full bg-blue-900/20 border border-blue-800/50 p-4 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+             <div className="flex items-center gap-2 text-blue-200">
+                 <span className="text-xl">ℹ️</span>
+                 <span>To run the demo, please fund these wallets on <strong>{network.toUpperCase()}</strong>:</span>
+             </div>
+             <div className="flex gap-4 font-mono text-xs">
+                 <div className="bg-black/40 px-3 py-2 rounded flex flex-col">
+                     <span className="text-gray-500 mb-1">HOST ADDRESS</span>
+                     <span className="text-white select-all">{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString()}</span>
+                 </div>
+                 <div className="bg-black/40 px-3 py-2 rounded flex flex-col">
+                     <span className="text-gray-500 mb-1">AGENT ADDRESS</span>
+                     <span className="text-white select-all">{agentWallet.publicKey.toString()}</span>
+                 </div>
+             </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
           {/* Control Panel */}
           <div className="flex flex-col gap-4 p-6 bg-gray-900 rounded-xl border border-gray-800 h-fit">
