@@ -27,8 +27,7 @@ export const executeTick = async (
         session: sessionPda,
         vault: vaultPda,
         hostToken: hostToken,
-        // tokenProgram is usually inferred
-      })
+      } as any)
       .rpc();
     console.log("Tick successful, tx:", tx);
     return tx;
