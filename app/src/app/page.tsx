@@ -1,4 +1,5 @@
 "use client";
+import bs58 from "bs58";
 import { useState, useEffect, useRef } from "react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
@@ -17,7 +18,17 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Simulation State
-  const [agentWallet] = useState(Keypair.generate());
+  const [agentWallet] = useState(() => {
+    const envKey = process.env.NEXT_PUBLIC_AGENT_WALLET_KEY;
+    if (envKey) {
+      try {
+        return Keypair.fromSecretKey(bs58.decode(envKey));
+      } catch (e) {
+        console.error("Failed to load agent wallet from env:", e);
+      }
+    }
+    return Keypair.generate();
+  });
   const [agentBalance, setAgentBalance] = useState(10.0000);
   const [projectBalance, setProjectBalance] = useState(543.2100);
   const [erSessionId, setErSessionId] = useState<string | null>(null);
