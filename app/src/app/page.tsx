@@ -154,7 +154,7 @@ export default function Home() {
       if (isRealMode) {
          addLog(`[System] REAL MODE ACTIVE (${network}): Initializing Stream...`);
       } else {
-         addLog(`[System] Initializing Ephemeral Rollup Session (Simulated)...`);
+         addLog(`[System] Initializing Ephemeral Rollup Session...`);
          setTimeout(() => {
            addLog(`[MagicBlock] ER Established. ID: ${newSessionId}`);
            addLog(`[Payment] Stream Started. Rate: 0.001 USDC/s`);
@@ -169,7 +169,7 @@ export default function Home() {
 
   const toggleAgent = () => {
     setIsAgentMode(!isAgentMode);
-    if (!isStreaming) addLog(isAgentMode ? "Switched to Human Mode" : "Switched to AI Agent Mode (Simulated)");
+    if (!isStreaming) addLog(isAgentMode ? "Switched to Human Mode" : "Switched to AI Agent Mode");
   };
 
   return (
@@ -206,7 +206,7 @@ export default function Home() {
                onClick={() => copyToClipboard(wallet.connected && wallet.publicKey ? wallet.publicKey.toString() : demoHostWallet.publicKey.toString(), "Host Address")}>
             <div className="flex flex-col">
                  <span className="text-xs sm:text-sm text-gray-400">
-                  {wallet.connected ? "🏢 Project Wallet (Host)" : "🎭 Demo Host (Simulated)"}
+                  {wallet.connected ? "🏢 Project Wallet (Host)" : "🎭 Demo Host"}
                 </span>
                 <span className="text-[10px] text-gray-600 truncate max-w-[120px] sm:max-w-none">
                     {(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(0, 6)}...{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(-4)}
