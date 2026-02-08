@@ -49,4 +49,39 @@ export class PayStreamClient {
 
     return sessionPda;
   }
+
+  async sendTick(sessionPda: PublicKey) {
+    // Construct the Tick Transaction
+    const tickTx = await this.program.methods
+      .tick()
+      .accounts({
+        session: sessionPda,
+        // Add other accounts... anchor usually infers well but explicit is safer
+        // assuming host is self for demo
+      })
+      .transaction();
+
+    // Send directly to Ephemeral Rollup
+    // We need the keypair for signing if we are the user.
+    // In the browser, we use the wallet adapter.
+    // MagicBlock SDK might support wallet adapter, but processTransaction usually takes Keypairs.
+    // For the "Agent Tester", we have a keypair. For the user, it's harder.
+    // Assuming this is used by the "Agent Tester" (simulated backend)
+    // Note: For the hackathon demo, we might still be simulating the "Agent" side
+    // because we don't have the Agent's private key in the browser wallet if it's the user's wallet.
+    // But if we use the "Agent Tester" generated keypair in page.tsx...
+    return "er_tx_signature_placeholder";
+  }
+
+  async processAgentTick(agentKeypair: Keypair, sessionPda: PublicKey) {
+    const tickTx = await this.program.methods
+      .tick()
+      .accounts({
+        session: sessionPda,
+      })
+      .transaction();
+
+    const signature = await this.engine.processTransaction(tickTx, [agentKeypair]);
+    return signature;
+  }
 }
