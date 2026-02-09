@@ -372,6 +372,32 @@ export default function Home() {
             </ul>
           </div>
         </div>
+
+        {/* FAQ Section */}
+        <div className="w-full mt-12 border-t border-gray-800 pt-8 order-5 pb-16">
+            <h2 className="text-2xl font-bold mb-8 text-center text-white">Advanced Mechanics (FAQ)</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gray-900/30 p-5 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors">
+                    <h3 className="font-bold text-green-400 mb-2 text-sm">Q: Is an Ephemeral Rollup just a "state channel"?</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">No, it's <strong className="text-white">State Delegation</strong>. Like moving a Google Doc to the cloud to type privately, then printing the PDF to L1. The state exists independently of the user once delegated.</p>
+                </div>
+
+                <div className="bg-gray-900/30 p-5 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors">
+                    <h3 className="font-bold text-green-400 mb-2 text-sm">Q: Can we switch the recipient mid-stream?</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed"><strong className="text-white">YES.</strong> Because the "Session Wallet" is delegated to a Program, the Program can route funds to different servers (e.g., if a Load Balancer switches video hosts) without closing the session.</p>
+                </div>
+
+                <div className="bg-gray-900/30 p-5 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors">
+                    <h3 className="font-bold text-green-400 mb-2 text-sm">Q: Can I keep the ER open and just swap users?</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed"><strong className="text-white">YES (The "Lobby" Model).</strong> Think of the ER as a Game Server. Host boots it up once. Users plug in (delegate) and unplug (undelegate). You don't have the overhead of booting a new rollup for every user.</p>
+                </div>
+
+                <div className="bg-gray-900/30 p-5 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors">
+                    <h3 className="font-bold text-green-400 mb-2 text-sm">Q: Is this like UDP Streaming?</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed"><strong className="text-white">YES.</strong> UDP is "connectionless" data streaming. PayStream is "frictionless" money streaming. Just like UDP drops packets if bandwidth is low, PayStream stops paying if the service stops.</p>
+                </div>
+            </div>
+        </div>
       </main>
     </div>
   );
