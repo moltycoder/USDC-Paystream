@@ -6,6 +6,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Keypair, Connection, LAMPORTS_PER_SOL, PublicKey, Transaction, VersionedTransaction } from "@solana/web3.js";
 import { PayStreamClient } from "@/utils/magic";
 import { getDemoHostWallet } from "@/utils/demo_host";
+import { executeTick } from "@/utils/paystream";
 import { Program, AnchorProvider } from "@coral-xyz/anchor";
 import idl from "@/types/paystream_idl.json";
 
@@ -149,16 +150,45 @@ export default function Home() {
           setCost((c) => c + transferAmount);
           
           if (isRealMode) {
-             // REAL MODE EXECUTION
-             if (Math.random() > 0.8) { // Only log occasionally to avoid spam
-                addLog(`[Tick] Executing Micro-Payment on ${network.toUpperCase()}...`);
-                // Note: Actual anchor call would go here.
-                // For safety in this demo, we simulate the success unless wallet is configured.
+             const rpc = network === 'devnet' ? 'https://api.devnet.solana.com' : 'https://api.testnet.solana.com';
+             const conn = new Connection(rpc, 'confirmed');
+             const usdcMint = network === 'devnet' ? USDC_DEVNET : USDC_TESTNET;
+             
+             // Setup Provider for Agent
+             // @ts-ignore
+             const provider = new AnchorProvider(conn, new SimpleWallet(agentWallet), {});
+             const programId = new PublicKey("933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp");
+             // @ts-ignore
+             const program = new Program(idl, programId, provider);
+
+             // Derive Session PDA (Agent -> Agent Stream for Demo Simplicity)
+             // In a real app, agent creates session for a specific host. Here, Agent is the Authority of the session.
+             const [sessionPda] = PublicKey.findProgramAddressSync(
+                [Buffer.from("stream"), agentWallet.publicKey.toBuffer()],
+                programId
+             );
+
+             // Determine Host (Recipient)
+             let hostPubkey = demoHostWallet.publicKey;
+             if (wallet.connected && wallet.publicKey) {
+                 hostPubkey = wallet.publicKey;
              }
-          }
-          
-          if (Math.random() > 0.7) {
-            addLog(`[Tick] Transfer ${transferAmount} USDC to Host`);
+
+             // Execute Tick
+             try {
+                // We call the utility function which handles the instruction creation
+                // Note: The utility function expects (program, session, host, mint)
+                const tx = await executeTick(program, sessionPda, hostPubkey, usdcMint);
+                addLog(`[Tick] TX: ${tx.slice(0, 8)}... | ${transferAmount} USDC`);
+             } catch (tickError) {
+                console.error("Tick execution failed:", tickError);
+                // Optional: Don't log every failure if it's spammy, or log warning
+             }
+          } else {
+             // Sim Mode
+             if (Math.random() > 0.7) {
+                addLog(`[Tick] Transfer ${transferAmount} USDC to Host`);
+             }
           }
 
           if (isAgentMode) {
@@ -168,13 +198,13 @@ export default function Home() {
             }
           }
         } catch (e) {
-          console.error(e);
-          setIsStreaming(false);
+          console.error("Loop error:", e);
+          // Don't kill stream on single error
         }
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isStreaming, isAgentMode, agentWallet, isRealMode, network]);
+  }, [isStreaming, isAgentMode, agentWallet, isRealMode, network, wallet.connected]);
 
   const toggleStream = async () => {
     if (isRealMode) {
