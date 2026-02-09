@@ -30,11 +30,17 @@ The system operates on a "Tick-Based" streaming model:
     -   `/tests`: Integration tests for tick logic
 ## Why It Matters
 This project solves the "Friction of Value" problem for AI Agents.
-1.  **Gas Barrier:** Agents shouldn't need to manage volatile gas tokens (SOL/ETH) just to spend stablecoins. PayStream allows them to operate purely in USDC.
-2.  **Subscription Trap:** Agents shouldn't pay monthly fees for APIs they use for seconds. PayStream enables "Pay-per-Inference" and "Pay-per-Second" granularity.
-3.  **High Velocity:** Traditional blockchains cannot handle the speed of agent decision-making (100ms loops). Our Ephemeral Rollup architecture supports the real-time nature of AI commerce.
+
+### The Paymaster Problem (Why Current Solutions Fail)
+Standard "Gasless" solutions (like EVM Paymasters) are fundamentally broken for high-frequency commerce. They abstract the gas payment, but **someone still pays the L2 fee** for every single transaction. This floor price makes $0.001 streaming payments economically impossible.
+
+### The PayStream Solution
+We leverage **Ephemeral Rollups** to achieve **True Zero-Marginal-Cost**.
+1.  **Gas Barrier:** Agents operate purely in USDC. No volatile gas tokens required.
+2.  **Zero-Cost Ticks:** By moving state off-chain, we can process 1,000+ ticks per second with literally zero gas fees.
+3.  **High Velocity:** The architecture matches the speed of agent decision-making loops (100ms), enabling real-time "Pay-per-Inference".
 
 ## Use Cases
-1.  **DePIN for Intelligence:** Agents pay CCTV owners for real-time access to security feeds only when an anomaly is detected.
-2.  **LLM Streaming:** Users pay for LLM inference token-by-token in real-time, stopping payment the millisecond the answer is satisfactory.
-3.  **Autonomous M2M Markets:** Drones paying charging stations by the watt-second without creating thousands of on-chain transactions.
+1.  **Corporate AI Fleets:** Companies like OpenAI can load a wallet with 1M USDC and let agents pay for compute without managing SOL volatility or tax implications of gas tokens.
+2.  **Emerging Markets:** "Pay-per-Gaze" media consumption for users who hold stablecoins but don't understand "Rent" or "Compute Units".
+3.  **Autonomous M2M Markets:** Drones paying charging stations by the watt-second without spamming the L1 with thousands of transactions.

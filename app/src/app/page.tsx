@@ -328,12 +328,20 @@ export default function Home() {
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">Why USDC PayStream?</h3>
             <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-              AI Agents are the new economic actors, but they face a critical barrier: <span className="text-white font-medium"> Friction</span>. Traditional payments (credit cards) and even standard crypto (gas fees, block times) are too slow and expensive for machine-to-machine commerce.
+              AI Agents are the new economic actors, but they face a critical barrier: <span className="text-white font-medium"> Friction</span>. Standard crypto payments (gas fees, block times) are too slow and expensive for machine-to-machine commerce.
             </p>
+            
+            <div className="bg-red-900/10 p-4 rounded-lg border border-red-900/30">
+              <h4 className="font-bold text-red-400 mb-2 text-sm uppercase tracking-wide">The Paymaster Problem</h4>
+              <p className="text-sm text-gray-400">
+                Traditional "Gasless" solutions (EVM Paymasters) are broken for high-frequency use cases. They abstract gas, but <span className="text-white font-bold">someone still pays L2 fees</span> for every transaction. This makes $0.001 micro-payments economically impossible.
+              </p>
+            </div>
+
             <div className="bg-gray-900/50 p-4 rounded-lg border border-gray-800">
-              <h4 className="font-bold text-blue-400 mb-2">The Solution</h4>
+              <h4 className="font-bold text-blue-400 mb-2">The PayStream Solution</h4>
               <p className="text-sm text-gray-300">
-                PayStream utilizes <span className="text-white">Ephemeral Rollups</span> to create temporary, zero-gas execution environments. This allows agents to stream USDC by the second, paying only for the exact compute or data they consume.
+                PayStream utilizes <span className="text-white">Ephemeral Rollups</span> to achieve <span className="text-white font-bold">True Zero-Marginal-Cost</span>. We move the state off-chain, enabling thousands of micro-transactions per second with literally zero gas cost.
               </p>
             </div>
           </div>
