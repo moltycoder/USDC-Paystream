@@ -86,3 +86,32 @@ We built a reference implementation that brings the **HTTP 402 (Payment Required
 *   **Liquidity Requirement (Rent):** ~$0.40 USD per concurrent user (Locked SOL for Account Rent).
 *   **Constraint:** The Host's capacity is limited by their available SOL liquidity. To support 10,000 concurrent users, the Host needs ~20 SOL locked.
 *   **Recovery:** When a user leaves, the $0.40 is returned to the Host.
+
+## 9. Advanced Mechanics (FAQ)
+
+### Q1: Is an ER just a "conversation"?
+**A:** No, it's **State Delegation**. Like moving a Google Doc to the cloud to type privately, then printing the PDF to L1. The state exists independently of the user once delegated.
+
+### Q2: Can we keep it open forever?
+**A:** Yes, as long as rent is paid. Perfect for lifetime subscriptions or persistent game worlds.
+
+### Q3: Can we switch the recipient?
+**A:** **YES.** Because the "Session Wallet" is delegated to a Program, the Program can route funds to different servers (e.g., if a Load Balancer switches video hosts) without closing the session.
+
+### Q4: Can I keep the ER open and just swap users? (The "Lobby" Model)
+**A:** **YES. This is the ultimate optimization.**
+*   **Concept:** Think of the ER not as a "private room" but as a Game Server or Lobby.
+*   **Flow:**
+    1.  Host boots up one powerful ER (The "PayStream Arena").
+    2.  User A joins (delegates their wallet to the Arena).
+    3.  User B joins (delegates their wallet to the Arena).
+    4.  User A leaves (undelegates). The Arena stays open.
+    5.  User C joins.
+*   **Benefit:** You don't have the overhead of booting a new rollup for every user. You just manage the Delegation Flow.
+*   **Wallet Switching:** Within this Arena, funds can flow freely. User A pays Host. Host pays an Affiliate. The Affiliate pays a User. All instantly, all on the same ER.
+
+### Q5: Is this like UDP Streaming?
+**A:** **YES.**
+*   **The Vibe:** UDP is "connectionless" data streaming. PayStream is "frictionless" money streaming.
+*   **The Flow:** Packets of value fly at the host like packets of video.
+*   **Pay-Per-Use:** Just like UDP drops packets if bandwidth is low, PayStream stops paying if the service stops. It is a precise, high-velocity stream of micro-confirmations.
