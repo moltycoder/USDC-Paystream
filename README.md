@@ -19,6 +19,7 @@ The system operates on a "Tick-Based" streaming model:
 
 ## Proof of Work
 -   **Contract Address (Devnet):** `933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp`
+-   **Contract Address (Testnet):** `933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp`
 -   **Live Demo:** https://usdc-paystream.netlify.app/
 -   **Video Walkthrough:** `app/public/assets/demo-feed.mp4` (The footage used for the AI simulation)
 
