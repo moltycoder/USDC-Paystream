@@ -1,0 +1,3 @@
+module.exports=[5481,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(77195);a.n(d("[project]/.openclaw/workspace/workspace/USDC-Paystream/app/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},26530,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(77195);a.n(d("[project]/.openclaw/workspace/workspace/USDC-Paystream/app/node_modules/next/dist/client/components/builtin/global-error.js"))},85375,a=>{"use strict";a.i(5481);var b=a.i(26530);a.n(b)}];
+
+//# sourceMappingURL=1acdc_next_dist_client_components_builtin_global-error_e8a35b50.js.map

@@ -178,6 +178,7 @@ export default function Home() {
              try {
                 // We call the utility function which handles the instruction creation
                 // Note: The utility function expects (program, session, host, mint)
+                // @ts-ignore
                 const tx = await executeTick(program, sessionPda, hostPubkey, usdcMint);
                 addLog(`[Tick] TX: ${tx.slice(0, 8)}... | ${transferAmount} USDC`);
              } catch (tickError) {
