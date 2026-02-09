@@ -382,8 +382,22 @@ export default function Home() {
             </div>
             <div className="flex justify-between items-center bg-black/50 p-4 rounded-lg">
               <span className="text-gray-400">Session Cost</span>
-              <span className="font-mono text-xl text-yellow-400">${cost.toFixed(4)}</span>
+              <span className="font-mono text-xl text-yellow-400">${cost.toFixed(4)} USDC</span>
             </div>
+            
+            {isStreaming && (
+                <div className="flex justify-between items-center bg-blue-900/20 p-4 rounded-lg border border-blue-800/30">
+                  <span className="text-gray-400 text-sm">Locked Rent</span>
+                  <span className="font-mono text-sm text-blue-400">0.05 SOL (Refundable)</span>
+                </div>
+            )}
+
+            {erSessionId && (
+                <div className="flex justify-between items-center bg-gray-800/50 p-3 rounded-lg border border-gray-700/50">
+                  <span className="text-gray-500 text-xs">Active Rollup ID</span>
+                  <span className="font-mono text-xs text-gray-400">{erSessionId}</span>
+                </div>
+            )}
             
             <div className="flex items-center gap-2 mt-4 p-2 bg-gray-800 rounded border border-gray-700">
                 <input type="checkbox" id="realMode" checked={isRealMode} onChange={(e) => setIsRealMode(e.target.checked)} className="w-4 h-4 text-blue-600 rounded bg-gray-700 border-gray-600" />
