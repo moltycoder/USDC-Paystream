@@ -41,6 +41,48 @@ We leverage **Ephemeral Rollups** to achieve **True Zero-Marginal-Cost**.
 3.  **High Velocity:** The architecture matches the speed of agent decision-making loops (100ms), enabling real-time "Pay-per-Inference".
 
 ## Use Cases
-1.  **Corporate AI Fleets:** Companies like OpenAI can load a wallet with 1M USDC and let agents pay for compute without managing SOL volatility or tax implications of gas tokens.
-2.  **Emerging Markets:** "Pay-per-Gaze" media consumption for users who hold stablecoins but don't understand "Rent" or "Compute Units".
-3.  **Autonomous M2M Markets:** Drones paying charging stations by the watt-second without spamming the L1 with thousands of transactions.
+
+### A. YouTube v2 (Media Streaming) "Pay-Per-Gaze"
+*   **User:** Alice, a casual viewer.
+*   **Content:** A 2-hour premium documentary ($5.00 total).
+*   **Flow:**
+    1.  Alice clicks Play. Wallet prompts: *"Allow streaming up to $5.00?"*
+    2.  She accepts. 5 USDC is locked.
+    3.  She watches for 15 minutes.
+    4.  **Cost:** She pays exactly **$0.62**.
+    5.  She closes the tab. The remaining **$4.38** is returned instantly.
+
+### B. The AI Experience (CCTV & Data) "The Autonomous Guard"
+*   **User:** "Sentry-AI", monitoring a remote facility.
+*   **Content:** Live 4K CCTV feed.
+*   **Flow:**
+    1.  Sentry-AI opens the PayStream.
+    2.  It pays **$0.01/minute** for standard feed.
+    3.  **Dynamic Pricing:** At 2:00 AM, it detects movement. It instantly sends a "Priority Boost" transaction (paying 5x) to switch the camera to High-Def + Thermal Vision.
+    4.  **Result:** The AI pays for *information quality* on demand.
+
+### C. Inference Provider (Compute) "The Power User"
+*   **User:** Bob, a developer.
+*   **Service:** "DeepThink Pro" ($100/mo model).
+*   **Flow:**
+    1.  Bob pastes an error log. Toggles "Stream Payment".
+    2.  Model starts thinking. Ticker: $0.01... $0.02...
+    3.  Bob sees it's wrong. Hits Ctrl+C.
+    4.  **Cost:** **$0.03**. (Saved $99.97 vs monthly sub).
+
+## 7. Implementation Strategy: "The 402 Protocol"
+We built a reference implementation that brings the **HTTP 402 (Payment Required)** status code to life.
+
+1.  **The Trigger:** User clicks "Play".
+2.  **The Handshake (HTTP 402):** Browser receives 402 Payment Required.
+3.  **The "Gasless" Setup:** The website (Host) pays the SOL gas to spin up the ER. The user only signs the USDC spend.
+4.  **The Verification Loop:**
+    *   Server sends video chunk.
+    *   Client signs "Proof of View" receipt.
+    *   ER verifies receipt and streams payment.
+
+## 8. Operational Model & Costs (Host)
+*   **Sunk Cost (Network Fees):** ~$0.002 USD per session (Open/Close transactions). Negligible.
+*   **Liquidity Requirement (Rent):** ~$0.40 USD per concurrent user (Locked SOL for Account Rent).
+*   **Constraint:** The Host's capacity is limited by their available SOL liquidity. To support 10,000 concurrent users, the Host needs ~20 SOL locked.
+*   **Recovery:** When a user leaves, the $0.40 is returned to the Host.
