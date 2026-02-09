@@ -315,9 +315,10 @@ export default function Home() {
                onClick={() => copyToClipboard(wallet.connected && wallet.publicKey ? wallet.publicKey.toString() : demoHostWallet.publicKey.toString(), "Host Address")}>
             <div className="flex flex-col">
                  <span className="text-xs sm:text-sm text-gray-400">
-                  {wallet.connected ? "🏢 Project Wallet (Connected)" : "🏢 Project Wallet (Demo Host)"}
+                  🏢 Project Wallet
                 </span>
                 <span className="text-[10px] text-gray-600 truncate max-w-[120px] sm:max-w-none">
+                    {wallet.connected ? "(Connected) " : "(Demo) "}
                     {(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(0, 6)}...{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(-4)}
                 </span>
             </div>
