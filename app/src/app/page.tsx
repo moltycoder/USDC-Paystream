@@ -92,13 +92,16 @@ export default function Home() {
   };
 
   // Balance Fetcher
-  const fetchBalances = async () => {
-    // RESET STATE TO PREVENT STALE DATA
-    setAgentSol(0);
-    setAgentUsdc(0);
-    setHostSol(0);
-    setHostUsdc(0);
-    setIsLoading(true);
+  const fetchBalances = async (firstLoad = false) => {
+    // Only show full loading state on first load or manual network switch
+    if (firstLoad) {
+        setIsLoading(true);
+        // RESET STATE TO PREVENT STALE DATA
+        setAgentSol(0);
+        setAgentUsdc(0);
+        setHostSol(0);
+        setHostUsdc(0);
+    }
     
     try {
       const rpc = network === 'devnet' ? 'https://api.devnet.solana.com' : 'https://api.testnet.solana.com';
@@ -135,8 +138,8 @@ export default function Home() {
 
   // Poll Balances
   useEffect(() => {
-    fetchBalances();
-    const interval = setInterval(fetchBalances, 5000);
+    fetchBalances(true);
+    const interval = setInterval(() => fetchBalances(false), 5000);
     return () => clearInterval(interval);
   }, [network, wallet.connected, agentWallet]);
 
@@ -312,7 +315,7 @@ export default function Home() {
                onClick={() => copyToClipboard(wallet.connected && wallet.publicKey ? wallet.publicKey.toString() : demoHostWallet.publicKey.toString(), "Host Address")}>
             <div className="flex flex-col">
                  <span className="text-xs sm:text-sm text-gray-400">
-                  {wallet.connected ? "🏢 Project Wallet (Host)" : "🎭 Demo Host"}
+                  {wallet.connected ? "🏢 Project Wallet (Connected)" : "🏢 Project Wallet (Demo Host)"}
                 </span>
                 <span className="text-[10px] text-gray-600 truncate max-w-[120px] sm:max-w-none">
                     {(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(0, 6)}...{(wallet.connected && wallet.publicKey ? wallet.publicKey : demoHostWallet.publicKey).toString().slice(-4)}
