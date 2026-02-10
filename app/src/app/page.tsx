@@ -33,6 +33,14 @@ class SimpleWallet {
   get publicKey() {
     return this.payer.publicKey;
   }
+  async sendTransaction(tx: Transaction | VersionedTransaction, connection: Connection): Promise<string> {
+    if (tx instanceof Transaction) {
+      tx.sign(this.payer);
+    } else {
+      tx.sign([this.payer]);
+    }
+    return await connection.sendRawTransaction(tx.serialize());
+  }
 }
 
 const USDC_DEVNET = new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU");
