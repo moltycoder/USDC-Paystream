@@ -23,7 +23,7 @@
     "react-dom": "19.2.3"
   },
   "overrides": {
-    "@solana/web3.js": "^1.98.0"
+    "@solana/web3.js": "$@solana/web3.js"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
