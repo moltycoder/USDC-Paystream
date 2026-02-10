@@ -212,11 +212,22 @@ export default function Home() {
       addLog("------------------------------------------------");
       
       if (isRealMode) {
-         addLog(`[System] REAL MODE ACTIVE (${network}): Initializing Session...`);
-         // Session ID generation (Optimistic for demo)
-         const sessionId = "er_" + agentWallet.publicKey.toString().slice(0, 8);
-         setErSessionId(sessionId);
-         addLog(`[MagicBlock] Session Ready: ${sessionId}`);
+        addLog(`[System] REAL MODE ACTIVE (${network}): Initializing Session...`);
+        try {
+            const rpc = network === 'devnet' ? 'https://api.devnet.solana.com' : 'https://api.testnet.solana.com';
+            const conn = new Connection(rpc, 'confirmed');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const client = new PayStreamClient(conn, new SimpleWallet(agentWallet) as any);
+            // Create session (Delegation - costs SOL)
+            const sessionId = await client.createSession();
+            setErSessionId(sessionId.toBase58());
+            addLog(`[MagicBlock] Session Ready: ${sessionId.toBase58()}`);
+        } catch (e) {
+            console.error("Session init error:", e);
+            addLog(`[Error] Session Init Failed: ${(e as Error).message}`);
+            setIsStreaming(false);
+            return;
+        }
       } else {
          const newSessionId = "er_" + Math.random().toString(36).substr(2, 9);
          setErSessionId(newSessionId);
