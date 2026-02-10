@@ -159,7 +159,7 @@ export default function Home() {
               // Setup Provider for Agent
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const provider = new AnchorProvider(conn, new SimpleWallet(agentWallet) as any, {});
-              // @ts-expect-error Program constructor signature varies by version
+              // Standard Anchor 0.29.0 initialization
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const program = new Program(idl as any, new PublicKey(process.env.NEXT_PUBLIC_PAYSTREAM_PROGRAM_ID || "933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp"), provider);
 
