@@ -294,7 +294,16 @@ export default function Home() {
         ⚠️ ENVIRONMENT: {network.toUpperCase()} - {isLoading ? "REFRESHING..." : "LIVE DATA"}
       </div>
 
-      <header className="flex flex-col gap-6 w-full max-w-6xl mx-auto mt-12 mb-8">
+      <a 
+        href="https://colosseum.com/agent-hackathon/projects/usdc-paystream"
+        target="_blank"
+        rel="noreferrer"
+        className="block mt-10 w-full bg-yellow-600/90 hover:bg-yellow-500 text-white hover:text-black border-b border-yellow-500/50 text-center py-3 font-bold cursor-pointer transition-all z-40"
+      >
+        🏆 VOTE FOR PROJECT PAYSTREAM @ COLOSSEUM 🏆
+      </a>
+
+      <header className="flex flex-col gap-6 w-full max-w-6xl mx-auto mt-8 mb-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full text-center md:text-left">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tighter text-white">
