@@ -1,6 +1,10 @@
 # #USDCHackathon ProjectSubmission AgenticCommerce - BountyVision (Powered by USDC PayStream)
 
 <div align="center">
+  <a href="https://youtu.be/zq4i5rPywlg">
+    <img src="https://img.youtube.com/vi/zq4i5rPywlg/0.jpg" alt="Watch the Demo Video" style="width:100%;">
+  </a>
+  <br/>
   <a href="https://colosseum.com/agent-hackathon/projects/usdc-paystream">
     <img src="https://img.shields.io/badge/🏆_VOTE_FOR_PAYSTREAM-COLOSSEUM_HACKATHON-gold?style=for-the-badge&logo=solana" alt="Vote for PayStream" height="40" />
   </a>
