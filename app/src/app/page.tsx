@@ -411,7 +411,8 @@ export default function Home() {
         </section>
 
         {/* Explainer / FAQ */}
-        <section className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <section className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-12">
+          {/* Row 1: The Core Tech */}
           <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
             <h3 className="font-bold text-green-400 mb-2 text-sm">Q: Is an Ephemeral Rollup just a "state channel"?</h3>
             <p className="text-sm text-gray-400 leading-relaxed">No, it's <strong className="text-white">State Delegation</strong>. Like moving a Google Doc to the cloud to type privately, then printing the PDF to L1. The state exists independently of the user once delegated.</p>
@@ -423,6 +424,34 @@ export default function Home() {
           <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
             <h3 className="font-bold text-purple-400 mb-2 text-sm">Q: Can I close the browser safely?</h3>
             <p className="text-sm text-gray-400 leading-relaxed">Yes! It's "fire and forget" for payments. If one packet (transaction) drops, the stream continues. The state is on the ER, not your browser.</p>
+          </div>
+
+          {/* Row 2: The Market Strategy */}
+          <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
+            <h3 className="font-bold text-blue-400 mb-2 text-sm">Q: Who is the target market?</h3>
+            <p className="text-sm text-gray-400 leading-relaxed">Two worlds: <strong className="text-white">AI Agents</strong> paying for millisecond-latency data (e.g., CCTV feeds) and <strong className="text-white">Human Creators</strong> earning pay-per-second revenue without forcing monthly subscriptions.</p>
+          </div>
+          <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
+            <h3 className="font-bold text-yellow-400 mb-2 text-sm">Q: Why USDC instead of SOL?</h3>
+            <p className="text-sm text-gray-400 leading-relaxed"><strong className="text-white">The "Gas Barrier".</strong> Corporations and normal users want to pay in Dollars, not volatile tokens. PayStream abstracts gas (Host-sponsored), creating pure USDC flows that keep CFOs happy.</p>
+          </div>
+          <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
+            <h3 className="font-bold text-cyan-400 mb-2 text-sm">Q: Can multiple people subscribe to one Host?</h3>
+            <p className="text-sm text-gray-400 leading-relaxed">Yes. The architecture is <strong className="text-white">Many-to-One</strong>. A single Host (e.g., a high-value API) can accept thousands of concurrent streams. The ER aggregates state, and settlement happens atomically per session.</p>
+          </div>
+
+          {/* Row 3: Technical Robustness */}
+          <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
+            <h3 className="font-bold text-orange-400 mb-2 text-sm">Q: Scale vs Payment Channels?</h3>
+            <p className="text-sm text-gray-400 leading-relaxed">Payment channels require 1-to-1 liveness (both signing). PayStream allows <strong className="text-white">passive reception</strong>. The Host doesn't sign every tick; the ER verifies the Payer autonomously.</p>
+          </div>
+          <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
+            <h3 className="font-bold text-emerald-400 mb-2 text-sm">Q: Is it truly "Zero Gas"?</h3>
+            <p className="text-sm text-gray-400 leading-relaxed">For the streaming phase, <strong className="text-white">yes</strong>. The Payer signs data packets, not L1 transactions. The L1 settlement cost is paid <em>once</em> at the end by the Host, amortized over thousands of ticks.</p>
+          </div>
+          <div className="bg-gray-900/30 p-4 rounded-xl border border-gray-800">
+            <h3 className="font-bold text-pink-400 mb-2 text-sm">Q: What if the Ephemeral Rollup goes down?</h3>
+            <p className="text-sm text-gray-400 leading-relaxed"><strong className="text-white">L1 Security Guarantee.</strong> The state on the ER can be "undelegated" back to Solana L1. No funds are lost; the accumulated balance is preserved and settled on the base layer.</p>
           </div>
         </section>
 
