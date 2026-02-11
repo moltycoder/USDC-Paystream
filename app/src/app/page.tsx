@@ -188,7 +188,8 @@ export default function Home() {
             const sig = await erConnection.sendRawTransaction(signedTx.serialize());
             await erConnection.confirmTransaction(sig, "confirmed");
             
-            addLog(`[ER-Tick] Payment Sent: ${transferAmount} USDC`);
+            const explorerUrl = `https://explorer.solana.com/tx/${sig}?cluster=custom&customUrl=https%3A%2F%2Fdevnet-as.magicblock.app`;
+            addLog(`[ER-Tick] Payment Sent: ${transferAmount} USDC`, explorerUrl);
             
           } else {
             // Sim mode logic
