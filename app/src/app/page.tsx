@@ -201,7 +201,7 @@ export default function Home() {
           // AI Analysis visual feedback
           const time = videoRef.current?.currentTime || 0;
           if (time > 10 && time < 12) {
-             addLog("[Sentry-AI] ALERT: Red Car Detected!");
+             // Sentry event removed
           }
         } catch (e) {
           const errStr = e instanceof Error ? e.message : String(e);
