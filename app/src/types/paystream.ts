@@ -5,7 +5,7 @@
  * IDL can be found at target/idl/paystream.json.
  */
 export type Paystream = {
-  "address": "933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp",
+  "address": "9vuRDYCkXmYx7vkfxzEm4biKEVyqShfSbAik1uK3y72t",
   "metadata": {
     "name": "paystream",
     "version": "0.1.0",
@@ -80,10 +80,6 @@ export type Paystream = {
           }
         },
         {
-          "name": "authority",
-          "writable": true
-        },
-        {
           "name": "claimerToken",
           "writable": true
         },
@@ -126,7 +122,10 @@ export type Paystream = {
                   115,
                   105,
                   111,
-                  110
+                  110,
+                  95,
+                  118,
+                  49
                 ]
               },
               {
@@ -165,12 +164,13 @@ export type Paystream = {
           }
         },
         {
+          "name": "hostToken",
+          "writable": true
+        },
+        {
           "name": "payer",
           "writable": true,
-          "signer": true,
-          "relations": [
-            "session"
-          ]
+          "signer": true
         },
         {
           "name": "payerToken",
@@ -179,6 +179,203 @@ export type Paystream = {
         {
           "name": "tokenProgram",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "delegate",
+      "discriminator": [
+        90,
+        147,
+        75,
+        178,
+        85,
+        88,
+        4,
+        137
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "signer": true
+        },
+        {
+          "name": "bufferPda",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                132,
+                172,
+                140,
+                6,
+                72,
+                6,
+                19,
+                227,
+                12,
+                91,
+                240,
+                120,
+                65,
+                113,
+                179,
+                229,
+                115,
+                79,
+                95,
+                66,
+                87,
+                207,
+                95,
+                230,
+                201,
+                65,
+                183,
+                42,
+                36,
+                37,
+                101,
+                101
+              ]
+            }
+          }
+        },
+        {
+          "name": "delegationRecordPda",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegationProgram"
+            }
+          }
+        },
+        {
+          "name": "delegationMetadataPda",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pda"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "delegationProgram"
+            }
+          }
+        },
+        {
+          "name": "pda",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  101,
+                  115,
+                  115,
+                  105,
+                  111,
+                  110,
+                  95,
+                  118,
+                  49
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "payer"
+              },
+              {
+                "kind": "account",
+                "path": "host"
+              }
+            ]
+          }
+        },
+        {
+          "name": "host"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "ownerProgram",
+          "address": "9vuRDYCkXmYx7vkfxzEm4biKEVyqShfSbAik1uK3y72t"
+        },
+        {
+          "name": "delegationProgram",
+          "address": "DELeGGvXpWV2fqJUhqcF5ZSYMS4JTLjteaAMARRSaeSh"
         }
       ],
       "args": []
@@ -316,7 +513,10 @@ export type Paystream = {
                   115,
                   105,
                   111,
-                  110
+                  110,
+                  95,
+                  118,
+                  49
                 ]
               },
               {
@@ -392,6 +592,43 @@ export type Paystream = {
       ]
     },
     {
+      "name": "processUndelegation",
+      "discriminator": [
+        196,
+        28,
+        41,
+        206,
+        48,
+        37,
+        51,
+        167
+      ],
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "writable": true
+        },
+        {
+          "name": "buffer"
+        },
+        {
+          "name": "payer",
+          "writable": true
+        },
+        {
+          "name": "systemProgram"
+        }
+      ],
+      "args": [
+        {
+          "name": "accountSeeds",
+          "type": {
+            "vec": "bytes"
+          }
+        }
+      ]
+    },
+    {
       "name": "tick",
       "discriminator": [
         92,
@@ -418,7 +655,10 @@ export type Paystream = {
                   115,
                   105,
                   111,
-                  110
+                  110,
+                  95,
+                  118,
+                  49
                 ]
               },
               {
@@ -433,36 +673,6 @@ export type Paystream = {
               }
             ]
           }
-        },
-        {
-          "name": "vault",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  118,
-                  97,
-                  117,
-                  108,
-                  116
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "session"
-              }
-            ]
-          }
-        },
-        {
-          "name": "hostToken",
-          "writable": true
-        },
-        {
-          "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         }
       ],
       "args": []
@@ -505,7 +715,12 @@ export type Paystream = {
     {
       "code": 6001,
       "name": "invalidSecret",
-      "msg": "Invalid secret provided"
+      "msg": "Invalid secret"
+    },
+    {
+      "code": 6002,
+      "name": "insufficientFunds",
+      "msg": "Insufficient funds in stream allocation"
     }
   ],
   "types": [
@@ -558,6 +773,14 @@ export type Paystream = {
           {
             "name": "bump",
             "type": "u8"
+          },
+          {
+            "name": "totalDeposited",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedAmount",
+            "type": "u64"
           }
         ]
       }
