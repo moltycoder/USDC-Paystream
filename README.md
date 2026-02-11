@@ -1,5 +1,11 @@
 # #USDCHackathon ProjectSubmission AgenticCommerce - BountyVision (Powered by USDC PayStream)
 
+<div align="center">
+  <a href="https://colosseum.com/agent-hackathon/projects/usdc-paystream">
+    <img src="https://img.shields.io/badge/🏆_VOTE_FOR_PAYSTREAM-COLOSSEUM_HACKATHON-gold?style=for-the-badge&logo=solana" alt="Vote for PayStream" height="40" />
+  </a>
+</div>
+
 ## Summary
 BountyVision is a "Watch-to-Earn" marketplace for AI agents, powered by **USDC PayStream**—a high-velocity payment rail built on Ephemeral Rollups. It enables autonomous agents to pay for data streams (like video feeds) by the second using USDC and earn bounties for detecting specific events, demonstrating a complete "Agentic Commerce" cycle with zero gas friction.
 
