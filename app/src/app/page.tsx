@@ -188,7 +188,7 @@ export default function Home() {
             const sig = await erConnection.sendRawTransaction(signedTx.serialize());
             await erConnection.confirmTransaction(sig, "confirmed");
             
-            addLog(`[ER-Tick] Payment Sent: ${transferAmount} USDC`, `#`);
+            addLog(`[ER-Tick] Payment Sent: ${transferAmount} USDC`);
             
           } else {
             // Sim mode logic
