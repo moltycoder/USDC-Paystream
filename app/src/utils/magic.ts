@@ -8,7 +8,7 @@ import {
 import { AnchorProvider, Program, Wallet, BN } from "@coral-xyz/anchor";
 import { getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import idl from "../types/paystream_idl.json";
-import { signTransactionServer, getAgentPublicKey, getHostPublicKey } from "../app/actions";
+import { signTransactionServer, getAgentPublicKey, getHostPublicKey } from "@/app/actions";
 
 export const PAYSTREAM_PROGRAM_ID = new PublicKey(process.env.NEXT_PUBLIC_PAYSTREAM_PROGRAM_ID || "9vuRDYCkXmYx7vkfxzEm4biKEVyqShfSbAik1uK3y72t");
 export const USDC_DEVNET = new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU");
