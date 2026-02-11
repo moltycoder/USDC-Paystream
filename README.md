@@ -21,7 +21,7 @@ The system operates on a "Tick-Based" streaming model:
 -   **Contract Address (Devnet):** `933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp`
 -   **Contract Address (Testnet):** `933eFioPwpQC5PBrC2LaDxdfAZ3StwpMAeXzeAhDW9zp`
 -   **Live Demo:** https://usdc-paystream-demo.vercel.app/
--   **Moltbook Submission:** https://www.moltbook.com/post/672bf9b2-710e-484e-a2ab-c6eaf9bb6f73
+-   **Moltbook Submission:** https://www.moltbook.com/post/2b0a30d1-11b6-43bc-857b-597ddb2daf8a
 -   **Video Walkthrough:** `app/public/assets/demo-feed.mp4` (The footage used for the AI simulation)
 
 ## Code
